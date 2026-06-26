@@ -1,0 +1,48 @@
+# ─────────────────────────────────────────────
+#  Secrets & Environment
+# ─────────────────────────────────────────────
+.env
+.env.*
+!.env.example
+
+# ─────────────────────────────────────────────
+#  Project document folders (sensitive medical data)
+# ─────────────────────────────────────────────
+madical docs/
+incoming_docs/
+output_docs/
+temp_images/
+
+# ─────────────────────────────────────────────
+#  Python
+# ─────────────────────────────────────────────
+venv/
+.venv/
+env/
+ENV/
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.ipynb_checkpoints/
+
+# ─────────────────────────────────────────────
+#  OS / Editor
+# ─────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+.idea/
+.vscode/

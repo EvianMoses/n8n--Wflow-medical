@@ -1,0 +1,707 @@
+{
+  "name": "madical_docs_workFlow",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "triggerOn": "specificFolder",
+        "folderToWatch": {
+          "__rl": true,
+          "value": "1O42zD__8cn1GLtj0xPXAegu5P4ZzVqbi",
+          "mode": "list",
+          "cachedResultName": "incoming_docs",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1O42zD__8cn1GLtj0xPXAegu5P4ZzVqbi"
+        },
+        "event": "fileCreated",
+        "options": {
+          "fileType": "all"
+        }
+      },
+      "type": "n8n-nodes-base.googleDriveTrigger",
+      "typeVersion": 1,
+      "position": [
+        -624,
+        -368
+      ],
+      "id": "b6290314-095e-4e2a-bf31-ff1598d94c5b",
+      "name": "Google Drive Trigger",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "c9XM759AQvGvkotB",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:8000/extract",
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "parameterType": "formBinaryData",
+              "name": "file",
+              "inputDataFieldName": "data"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -272,
+        -368
+      ],
+      "id": "e0423b7b-557f-4398-bb3c-f69258e4411f",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.id }}",
+          "mode": "id"
+        },
+        "options": {
+          "googleFileConversion": {
+            "conversion": {
+              "docsToFormat": "application/pdf",
+              "drawingsToFormat": "application/pdf",
+              "slidesToFormat": "application/pdf"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -480,
+        -368
+      ],
+      "id": "5366ab5f-3a50-4b52-8df2-d8500dd4a48e",
+      "name": "Download file",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "c9XM759AQvGvkotB",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:8000/enrich",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.parse($json.candidates[0].content.parts[0].text) }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        144,
+        -368
+      ],
+      "id": "751ed424-3cd1-40a7-bc60-1ce03f5fae80",
+      "name": "HTTP Request (Enrich)"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1jS8G2ltswgJisIrJ11JuvNbnywuK_3OCuiQ3Wv01L20",
+          "mode": "list",
+          "cachedResultName": "Medic_doc_log",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1jS8G2ltswgJisIrJ11JuvNbnywuK_3OCuiQ3Wv01L20/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "גיליון1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1jS8G2ltswgJisIrJ11JuvNbnywuK_3OCuiQ3Wv01L20/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Document ID": "={{ $json.document_id }}",
+            "Department": "={{ $json.department }}",
+            "Sensitivity": "={{ $json.sensitivity }}",
+            "Routing Tag": "={{ $json.routing_tag }}",
+            "Processed At": "={{ $json.processed_at }}",
+            "Summary": "={{ JSON.parse($('HTTP Request (gemini)').item.json.candidates[0].content.parts[0].text).summary }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Document ID",
+              "displayName": "Document ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Department",
+              "displayName": "Department",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Sensitivity",
+              "displayName": "Sensitivity",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Routing Tag",
+              "displayName": "Routing Tag",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Processed At",
+              "displayName": "Processed At",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Summary",
+              "displayName": "Summary",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        352,
+        -368
+      ],
+      "id": "c5a4a9b9-8477-4e82-a0ae-c6718bcbde45",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "hvMj8mj8GPISUL1T",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "httpMultipleHeadersAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{\n  {\n    \"contents\": [\n      {\n        \"role\": \"user\",\n        \"parts\": [\n          {\n            \"text\": \"אתה עוזר בינה מלאכותית בתחום הרפואה. נתח את המסמך והתמונות המצורפות (אם ישנן) והחזר אך ורק אובייקט JSON חוקי עם השדות הבאים:\\n\\n{\\n  \\\"summary\\\": \\\"סיכום של 2-3 משפטים של המסמך\\\",\\n  \\\"classification\\\": \\\"בחר אחד מ: [סיכום אשפוז, תוצאות מעבדה, הפניה, מרשם, מסמך רפואי כללי]\\\",\\n  \\\"sentiment\\\": \\\"בחר אחד מ: [positive, neutral, negative]\\\",\\n  \\\"entities\\\": {\\n    \\\"people\\\": [\\\"רשימת שמות מטופלים או רופאים שמוזכרים\\\"],\\n    \\\"organizations\\\": [\\\"בתי חולים, קופות חולים\\\"],\\n    \\\"dates\\\": [\\\"תאריכים מוזכרים\\\"],\\n    \\\"medical_terms\\\": [\\\"רשימת תרופות, מחלות, או מדדים רפואיים\\\"]\\n  },\\n  \\\"action_items\\\": [\\\"רשימת פעולות שצריך לבצע בעקבות המסמך\\\"],\\n  \\\"confidence_score\\\": 0.95\\n}\\n\\nטקסט המסמך:\\n\" + $json.text\n          },\n          ...($json.images || []).map(img => ({\n            \"inlineData\": {\n              \"mimeType\": img.mime_type,\n              \"data\": img.data\n            }\n          }))\n        ]\n      }\n    ],\n    \"generationConfig\": {\n      \"temperature\": 0.1,\n      \"responseMimeType\": \"application/json\"\n    }\n  }\n}}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -64,
+        -368
+      ],
+      "id": "8c1562c5-e54a-434d-b35f-3c2996535d36",
+      "name": "HTTP Request (gemini)",
+      "retryOnFail": true,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "httpMultipleHeadersAuth": {
+          "id": "h89ZVHxTMS2df8vc",
+          "name": "Multiple Headers Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "7078966a-8e09-46d1-80a3-b617996a0731",
+              "leftValue": "={{ $json.Sensitivity }}",
+              "rightValue": "confidential",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        640,
+        48
+      ],
+      "id": "385d240a-16c2-4d88-b6ec-6dda582c37f3",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "sendTo": "aviadivi@walla.com",
+        "subject": "=🚨 URGENT: Confidential Medical Document Processed - ID: {{ $('HTTP Request (Enrich)').item.json.document_id }}",
+        "message": "=<h3>התראת אבטחה: מסמך רפואי רגיש עובד במערכת</h3> <p><strong>מזהה מסמך:</strong> {{ $('HTTP Request (Enrich)').item.json.document_id }}\n</p> <p><strong>מחלקה מנתבת:</strong> {{ $('HTTP Request (Enrich)').item.json.department }}\n</p> <p><strong>רמת רגישות:</strong> <span style=\"color: red; font-weight: bold;\">CONFIDENTIAL</span></p> <hr> <p>נא לבדוק את התיק הרפואי באופן מיידי.</p>",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        848,
+        -48
+      ],
+      "id": "9a20ae64-a9a8-47c3-80c2-3dbd245c07dc",
+      "name": "Send a message",
+      "webhookId": "f316ed58-116b-4e89-ba8e-5f552c9e9327",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "EZYa5ddbrgoOTlM9",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "aviadivi@walla.com",
+        "subject": "=New Medical Document Summary - ID: {{ $('HTTP Request (Enrich)').item.json.document_id }}",
+        "message": "=<div dir=\"rtl\" style=\"font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; border: 1px solid #e0e0e0; padding: 20px; border-radius: 8px;\">\n  <h3 style=\"color: #007bff; border-bottom: 2px solid #007bff; padding-bottom: 8px; margin-top: 0;\">סיכום מסמך רפואי חדש עובד בהצלחה</h3>\n  \n  <table style=\"width: 100%; border-collapse: collapse; margin-bottom: 20px;\">\n    <tr>\n      <td style=\"padding: 6px 0; font-weight: bold; width: 120px;\">מזהה מסמך:</td>\n      <td style=\"padding: 6px 0; color: #555;\">{{ $('HTTP Request (Enrich)').item.json.document_id }}</td>\n    </tr>\n    <tr>\n      <td style=\"padding: 6px 0; font-weight: bold;\">מחלקה מנתבת:</td>\n      <td style=\"padding: 6px 0; color: #555;\">{{ $('HTTP Request (Enrich)').item.json.department }}</td>\n    </tr>\n    <tr>\n      <td style=\"padding: 6px 0; font-weight: bold;\">סטטוס ניתוב:</td>\n      <td style=\"padding: 6px 0;\"><span style=\"background-color: #e6f4ea; color: #137333; padding: 2px 8px; border-radius: 4px; font-size: 0.9em;\">{{ $('HTTP Request (Enrich)').item.json.routing_tag }}</span></td>\n    </tr>\n  </table>\n\n  <div style=\"background-color: #f8f9fa; border-right: 4px solid #007bff; padding: 15px; border-radius: 4px; margin-bottom: 15px;\">\n    <h4 style=\"margin-top: 0; color: #007bff; margin-bottom: 8px;\">💡 סיכום הבינה המלאכותית (Gemini):</h4>\n    <p style=\"margin: 0; font-size: 0.95em;\">\n      {{ JSON.parse($('HTTP Request (gemini)').item.json.candidates[0].content.parts[0].text).summary }}\n    </p>\n  </div>\n\n  <p style=\"font-size: 0.85em; color: #777; margin-bottom: 0;\">הודעה זו נשלחה באופן אוטומטי על ידי מערכת הניתוב הרפואית.</p>\n</div>",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        848,
+        144
+      ],
+      "id": "770590a7-f7d0-4b5d-a42f-2a31fbd90007",
+      "name": "Send a message1",
+      "webhookId": "1e274f4d-1b38-4e83-828c-db594e82bce9",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "EZYa5ddbrgoOTlM9",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const enrichData = $('HTTP Request (Enrich)').item.json;\nconst geminiRaw = $('HTTP Request (gemini)').item.json.candidates[0].content.parts[0].text;\nconst geminiJson = JSON.parse(geminiRaw);\n\n// יצירת תוכן ה-Markdown\nconst markdownContent = `# דוח עיבוד מסמך רפואי\n**מזהה מסמך:** ${enrichData.document_id}\n**מחלקה:** ${enrichData.department}\n**רמת רגישות:** ${enrichData.sensitivity}\n**תאריך עיבוד:** ${enrichData.processed_at}\n\n## סיכום רפואי\n${geminiJson.summary}\n\n## פעולות לביצוע (Action Items)\n${(geminiJson.action_items || []).map(item => `- ${item}`).join('\\n')}\n`;\n\n// החזרת הנתונים כקבצים בינאריים ש-n8n יודע להעלות\nreturn [\n  {\n    json: {\n      filename_prefix: enrichData.document_id\n    },\n    binary: {\n      markdown_file: {\n        data: Buffer.from(markdownContent, 'utf-8').toString('base64'),\n        mimeType: 'text/markdown',\n        fileName: `${enrichData.document_id}.md`\n      },\n      json_file: {\n        data: Buffer.from(JSON.stringify(enrichData, null, 2), 'utf-8').toString('base64'),\n        mimeType: 'application/json',\n        fileName: `${enrichData.document_id}.json`\n      }\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        560,
+        -368
+      ],
+      "id": "bd655d42-718c-4860-8465-4d61e6853f0f",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "inputDataFieldName": "markdown_file",
+        "name": "={{ $json.filename_prefix }}.md",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1eT7Lkh1Y1Cv3TPf9tANWAWtma8UaMPwE",
+          "mode": "list",
+          "cachedResultName": "output_docs",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1eT7Lkh1Y1Cv3TPf9tANWAWtma8UaMPwE"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        848,
+        -464
+      ],
+      "id": "1b214999-bbb8-443a-bab4-91e3408a5881",
+      "name": "Upload file",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "c9XM759AQvGvkotB",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "inputDataFieldName": "json_file",
+        "name": "={{ $json.filename_prefix }}.json",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1eT7Lkh1Y1Cv3TPf9tANWAWtma8UaMPwE",
+          "mode": "list",
+          "cachedResultName": "output_docs",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1eT7Lkh1Y1Cv3TPf9tANWAWtma8UaMPwE"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        848,
+        -272
+      ],
+      "id": "9e59ffa5-7e3d-403d-8c3a-baefa6410f65",
+      "name": "Upload file1",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "c9XM759AQvGvkotB",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "deleteFile",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $('Google Drive Trigger').item.json.id }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1072,
+        48
+      ],
+      "id": "475043c4-3f2c-40ea-b3bd-e97d960e1e33",
+      "name": "Delete a file",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "c9XM759AQvGvkotB",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {}
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -224,
+        -752
+      ],
+      "id": "f55898e2-45e4-4e5d-8bf3-0657d1a922dc",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1jS8G2ltswgJisIrJ11JuvNbnywuK_3OCuiQ3Wv01L20",
+          "mode": "list",
+          "cachedResultName": "Medic_doc_log",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1jS8G2ltswgJisIrJ11JuvNbnywuK_3OCuiQ3Wv01L20/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "גיליון1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1jS8G2ltswgJisIrJ11JuvNbnywuK_3OCuiQ3Wv01L20/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -16,
+        -752
+      ],
+      "id": "b917aea1-d8a7-4c65-aef5-3c2c35929ef8",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "hvMj8mj8GPISUL1T",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// קבלת כל השורות שנקראו מהגיליון\nconst rows = typeof items !== 'undefined' ? items : $input.all();\nconst now = new Date();\nconst twentyFourHoursAgo = new Date(now.getTime() - (24 * 60 * 60 * 1000));\n\n// סינון שורות מה-24 שעות האחרונות\nconst recentRows = rows.filter(row => {\n  if (!row.json['Processed At']) return false;\n  const processedDate = new Date(row.json['Processed At']);\n  return processedDate >= twentyFourHoursAgo;\n});\n\n// אם אין מסמכים חדשים, נעצור את ה-Workflow עם הודעה מתאימה\nif (recentRows.length === 0) {\n  return [{ json: { has_data: false, html_report: \"<h3>לא עובדו מסמכים חדשים ב-24 השעות האחרונות.</h3>\" } }];\n}\n\n// בניית טבלת HTML מעוצבת עבור המייל היומי\nlet htmlTable = `\n<table style=\"width:100%; border-collapse: collapse; font-family: Arial, sans-serif;\">\n  <thead>\n    <tr style=\"background-color: #007bff; color: white; text-align: right;\">\n      <th style=\"padding: 10px; border: 1px solid #ddd;\">מזהה מסמך</th>\n      <th style=\"padding: 10px; border: 1px solid #ddd;\">מחלקה</th>\n      <th style=\"padding: 10px; border: 1px solid #ddd;\">רגישות</th>\n      <th style=\"padding: 10px; border: 1px solid #ddd;\">סיכום קצר</th>\n    </tr>\n  </thead>\n  <tbody>\n`;\n\nrecentRows.forEach(row => {\n  const sensitivityColor = row.json['Sensitivity'] === 'confidential' ? 'red' : 'inherit';\n  const sensitivityWeight = row.json['Sensitivity'] === 'confidential' ? 'bold' : 'normal';\n  \n  htmlTable += `\n    <tr style=\"text-align: right;\">\n      <td style=\"padding: 10px; border: 1px solid #ddd; font-size: 11px;\">${row.json['Document ID'] || ''}</td>\n      <td style=\"padding: 10px; border: 1px solid #ddd;\">${row.json['Department'] || ''}</td>\n      <td style=\"padding: 10px; border: 1px solid #ddd; color: ${sensitivityColor}; font-weight: ${sensitivityWeight};\">${row.json['Sensitivity'] || ''}</td>\n      <td style=\"padding: 10px; border: 1px solid #ddd; font-size: 13px;\">${row.json['Summary'] || ''}</td>\n    </tr>\n  `;\n});\n\nhtmlTable += `</tbody></table>`;\n\nreturn [{\n  json: {\n    has_data: true,\n    total_processed: recentRows.length,\n    html_report: `\n      <div dir=\"rtl\">\n        <h2>📊 דוח סיכום יומי - עיבוד מסמכים רפואיים</h2>\n        <p>במהלך 24 השעות האחרונות עובדו בהצלחה <strong>${recentRows.length}</strong> מסמכים במערכת.</p>\n        <hr>\n        ${htmlTable}\n      </div>\n    `\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        192,
+        -752
+      ],
+      "id": "5eeb38e6-fd24-49db-8b1b-3ae6f256bd68",
+      "name": "Code in JavaScript1"
+    },
+    {
+      "parameters": {
+        "sendTo": "aviadivi@walla.com",
+        "subject": "=Daily Medical Document Digest - {{ $json.total_processed }} New Docs",
+        "message": "={{ $json.html_report }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        400,
+        -752
+      ],
+      "id": "a3a4eb07-03b4-493d-9e32-1ef639fdc1ba",
+      "name": "Send a message2",
+      "webhookId": "757ad99c-505b-4fb7-b9f7-ec465c01c379",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "EZYa5ddbrgoOTlM9",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Google Drive Trigger": {
+      "main": [
+        [
+          {
+            "node": "Download file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download file": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request (gemini)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request (Enrich)": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request (gemini)": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request (Enrich)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Upload file",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Upload file1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload file": {
+      "main": [
+        []
+      ]
+    },
+    "Upload file1": {
+      "main": [
+        []
+      ]
+    },
+    "Send a message1": {
+      "main": [
+        [
+          {
+            "node": "Delete a file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        [
+          {
+            "node": "Delete a file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript1": {
+      "main": [
+        [
+          {
+            "node": "Send a message2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "9a2b1ae6-5d86-414f-a0fa-7cd4bf65ec72",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "05c874cda292cd9d5ad6ea464ca6f37952193996de749ce297563da47e9b5626"
+  },
+  "nodeGroups": [],
+  "id": "yjNXaHv3UdMo8wpS",
+  "tags": []
+}
