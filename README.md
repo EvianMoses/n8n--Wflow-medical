@@ -4,8 +4,8 @@ MedAI is an automated, cloud-connected pipeline designed to intelligently proces
 
 The system automatically extracts entities, determines document sensitivity, logs data to a cloud database, alerts staff of confidential files, and provides a live analytical dashboard.
 
+<img width="1334" height="477" alt="Screenshot 2026-06-27 021453" src="https://github.com/user-attachments/assets/bfe5b31a-7dec-4760-ae62-81681142fbf7" />
 
-<img width="1025" height="782" alt="Screenshot 2026-06-26 065126" src="https://github.com/user-attachments/assets/9d3ee1e0-ba60-4273-80dc-dd5c084296c2" />
 <img width="587" height="400" alt="live dshbord" src="https://github.com/user-attachments/assets/f6937d01-fd47-42a8-b00a-b7b078848244" />
 
 <img width="1864" height="566" alt="Screenshot 2026-06-26 072726" src="https://github.com/user-attachments/assets/f4a52408-fa2f-43b5-8827-baf8889c6ca7" />
