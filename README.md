@@ -2,7 +2,32 @@
 
 MedAI is an enterprise-grade document intelligence pipeline purpose-built for clinical environments. It ingests medical files from Google Drive (including multi-file ZIP batches), extracts text and embedded imagery through a local **FastAPI** microservice, performs multi-modal analysis with **Google Gemini 2.5 Flash**, enriches the results with deterministic routing metadata, and delivers structured output to Google Sheets alongside automated Gmail alerts and a live operations dashboard.
 
+<<<<<<< HEAD
 The system is orchestrated end-to-end by an **n8n** workflow, combining low-code orchestration with a dedicated Python service for the parsing and business logic that demands precision.
+=======
+The system automatically extracts entities, determines document sensitivity, logs data to a cloud database, alerts staff of confidential files, and provides a live analytical dashboard.
+
+<img width="1334" height="477" alt="Screenshot 2026-06-27 021453" src="https://github.com/user-attachments/assets/bfe5b31a-7dec-4760-ae62-81681142fbf7" />
+
+<img width="1152" height="940" alt="Screenshot 2026-06-27 024247" src="https://github.com/user-attachments/assets/ae074e71-146a-4df7-887d-edab5903a68c" />
+
+<img width="2242" height="1158" alt="Screenshot 2026-06-27 021832" src="https://github.com/user-attachments/assets/2afa72a7-fa94-46fb-9fba-f4b6efab4594" />
+
+<img width="1864" height="566" alt="Screenshot 2026-06-26 072726" src="https://github.com/user-attachments/assets/f4a52408-fa2f-43b5-8827-baf8889c6ca7" />
+
+
+---
+
+## ✨ Key Features
+
+* **Multi-Modal AI Analysis:** Uses Gemini 2.5 Flash to process both text and embedded images from medical documents (e.g., lab results, discharge summaries).
+* **Intelligent Auto-Routing:** Custom Python microservice automatically categorizes documents and routes them to the correct hospital department.
+* **PHI Sensitivity Detection:** Identifies highly sensitive files (e.g., Oncology, Psychiatry) and flags them with a `CONFIDENTIAL` tag.
+* **Real-Time Email Alerting:** Automatically dispatches high-priority emails for confidential files and standard summaries for routine documents.
+* **Cloud Logging & Output:** Appends parsed metadata to a Google Sheet and saves standardized JSON and Markdown reports directly to Google Drive.
+* **Daily Digest:** Scheduled automated workflow that sends a 24-hour summary report of all processed documents.
+* **Live Dashboard:** HTML/JS real-time dashboard displaying operational metrics and department routing efficiency.
+>>>>>>> 92794caca28361cf0d7025107afc2e0b305191a3
 
 ---
 
@@ -38,6 +63,7 @@ The FastAPI service is intentionally stateless and runs locally; n8n reaches it 
 
 ## Pipeline Flow
 
+<<<<<<< HEAD
 ```
 Google Drive (incoming_docs)
         │  new file (polled every minute)
@@ -288,3 +314,11 @@ medical_metadata_api/
 ---
 
 > **Compliance note:** This system processes protected health information (PHI). Treat all credentials, the `.env` file, and the `incoming_docs` / `output_docs` content as confidential, and ensure your deployment meets the regulatory requirements applicable to your organization.
+=======
+1. Start your Python backend (`uvicorn main:app`).
+2. Ensure your n8n workflow is active.
+3. Drop a medical document (PDF or DOCX) into your `incoming_docs` Google Drive folder.
+4. Wait a few seconds. The pipeline will automatically pick it up, analyze it, and log the results.
+5. Check your Email inbox for the summary or alert.
+6. Check your Google Sheet and Dashboard to see the newly appended data.
+>>>>>>> 92794caca28361cf0d7025107afc2e0b305191a3
