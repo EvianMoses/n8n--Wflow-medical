@@ -26,8 +26,8 @@
       "type": "n8n-nodes-base.googleDriveTrigger",
       "typeVersion": 1,
       "position": [
-        -624,
-        -368
+        -1152,
+        -576
       ],
       "id": "b6290314-095e-4e2a-bf31-ff1598d94c5b",
       "name": "Google Drive Trigger",
@@ -58,7 +58,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        -272,
+        -224,
         -368
       ],
       "id": "e0423b7b-557f-4398-bb3c-f69258e4411f",
@@ -85,8 +85,8 @@
       "type": "n8n-nodes-base.googleDrive",
       "typeVersion": 3,
       "position": [
-        -480,
-        -368
+        -992,
+        -512
       ],
       "id": "5366ab5f-3a50-4b52-8df2-d8500dd4a48e",
       "name": "Download file",
@@ -109,7 +109,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        144,
+        160,
         -368
       ],
       "id": "751ed424-3cd1-40a7-bc60-1ce03f5fae80",
@@ -233,7 +233,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        -64,
+        -32,
         -368
       ],
       "id": "8c1562c5-e54a-434d-b35f-3c2996535d36",
@@ -274,8 +274,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        640,
-        48
+        528,
+        -160
       ],
       "id": "385d240a-16c2-4d88-b6ec-6dda582c37f3",
       "name": "If"
@@ -290,8 +290,8 @@
       "type": "n8n-nodes-base.gmail",
       "typeVersion": 2.2,
       "position": [
-        848,
-        -48
+        736,
+        -256
       ],
       "id": "9a20ae64-a9a8-47c3-80c2-3dbd245c07dc",
       "name": "Send a message",
@@ -313,8 +313,8 @@
       "type": "n8n-nodes-base.gmail",
       "typeVersion": 2.2,
       "position": [
-        848,
-        144
+        736,
+        -64
       ],
       "id": "770590a7-f7d0-4b5d-a42f-2a31fbd90007",
       "name": "Send a message1",
@@ -333,8 +333,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        560,
-        -368
+        528,
+        -448
       ],
       "id": "bd655d42-718c-4860-8465-4d61e6853f0f",
       "name": "Code in JavaScript"
@@ -360,8 +360,8 @@
       "type": "n8n-nodes-base.googleDrive",
       "typeVersion": 3,
       "position": [
-        848,
-        -464
+        752,
+        -624
       ],
       "id": "1b214999-bbb8-443a-bab4-91e3408a5881",
       "name": "Upload file",
@@ -375,7 +375,7 @@
     {
       "parameters": {
         "inputDataFieldName": "json_file",
-        "name": "={{ $json.filename_prefix }}.json",
+        "name": "=={{ $('Code in JavaScript').item.json.filename_prefix }}.json",
         "driveId": {
           "__rl": true,
           "mode": "list",
@@ -393,8 +393,8 @@
       "type": "n8n-nodes-base.googleDrive",
       "typeVersion": 3,
       "position": [
-        848,
-        -272
+        752,
+        -448
       ],
       "id": "9e59ffa5-7e3d-403d-8c3a-baefa6410f65",
       "name": "Upload file1",
@@ -418,8 +418,8 @@
       "type": "n8n-nodes-base.googleDrive",
       "typeVersion": 3,
       "position": [
-        1072,
-        48
+        -240,
+        -160
       ],
       "id": "475043c4-3f2c-40ea-b3bd-e97d960e1e33",
       "name": "Delete a file",
@@ -515,6 +515,102 @@
           "name": "Gmail account"
         }
       }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "d4017415-71e4-46e3-b973-f5175d23d7bd",
+              "leftValue": "={{ $('Google Drive Trigger').item.json.name }}",
+              "rightValue": ".zip",
+              "operator": {
+                "type": "string",
+                "operation": "endsWith"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -832,
+        -448
+      ],
+      "id": "26336d46-ac84-4ee3-bcaf-e65470cad49a",
+      "name": "If1"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.compression",
+      "typeVersion": 1.1,
+      "position": [
+        -640,
+        -496
+      ],
+      "id": "33832f5d-12a7-4854-b05a-1f5117ec379e",
+      "name": "Compression"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -480,
+        -208
+      ],
+      "id": "748c1e5c-93c5-4523-9a12-60937a1e73ff",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "mode": "chooseBranch"
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1056,
+        -176
+      ],
+      "id": "aec62981-b52b-489e-b742-6d838e7f1e0a",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "jsCode": "return new Promise((resolve) => {\n  setTimeout(() => {\n    resolve(items);\n  }, 3000);\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1216,
+        -80
+      ],
+      "id": "5e837509-1d25-4045-ba6a-74cddd058ffc",
+      "name": "Code in JavaScript2"
+    },
+    {
+      "parameters": {
+        "jsCode": "const newItems = [];\n\nfor (const item of $input.all()) {\n  const binaryData = item.binary;\n  \n  if (binaryData) {\n    // עוברים על כל קובץ שחולץ מהזיפ (file_0, file_1...)\n    for (const key of Object.keys(binaryData)) {\n      newItems.push({\n        json: {\n          originalKey: key,\n          fileName: binaryData[key].fileName,\n          mimeType: binaryData[key].mimeType\n        },\n        binary: {\n          // אנחנו קוראים למפתח 'data' כדי שזה יתאים בדיוק להגדרות שלך ב-If2 וב-HTTP Request\n          data: binaryData[key] \n        }\n      });\n    }\n  }\n}\n\nreturn newItems;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -480,
+        -448
+      ],
+      "id": "a23002f6-8d66-4b26-9c84-d31cda272f09",
+      "name": "Code in JavaScript3"
     }
   ],
   "pinData": {},
@@ -534,7 +630,7 @@
       "main": [
         [
           {
-            "node": "HTTP Request",
+            "node": "If1",
             "type": "main",
             "index": 0
           }
@@ -626,21 +722,33 @@
     },
     "Upload file": {
       "main": [
-        []
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     },
     "Upload file1": {
       "main": [
-        []
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     },
     "Send a message1": {
       "main": [
         [
           {
-            "node": "Delete a file",
+            "node": "Merge",
             "type": "main",
-            "index": 0
+            "index": 1
           }
         ]
       ]
@@ -649,9 +757,9 @@
       "main": [
         [
           {
-            "node": "Delete a file",
+            "node": "Merge",
             "type": "main",
-            "index": 0
+            "index": 1
           }
         ]
       ]
@@ -688,6 +796,91 @@
           }
         ]
       ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Compression",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Compression": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Delete a file",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Delete a file": {
+      "main": [
+        []
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript2": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript3": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": false,
@@ -696,7 +889,7 @@
     "binaryMode": "separate",
     "availableInMCP": false
   },
-  "versionId": "b201e2cf-0832-4b70-9487-2b712bc48923",
+  "versionId": "a0932372-dc5c-4dfb-b3f6-4ca34fc816c0",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "05c874cda292cd9d5ad6ea464ca6f37952193996de749ce297563da47e9b5626"
