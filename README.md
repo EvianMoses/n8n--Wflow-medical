@@ -4,6 +4,12 @@ MedAI is an automated, cloud-connected pipeline designed to intelligently proces
 
 The system automatically extracts entities, determines document sensitivity, logs data to a cloud database, alerts staff of confidential files, and provides a live analytical dashboard.
 
+<img width="587" height="400" alt="live dshbord" src="https://github.com/user-attachments/assets/f6937d01-fd47-42a8-b00a-b7b078848244" />
+
+<img width="1025" height="782" alt="Screenshot 2026-06-26 065126" src="https://github.com/user-attachments/assets/9d3ee1e0-ba60-4273-80dc-dd5c084296c2" />
+
+---
+
 ## ✨ Key Features
 
 * **Multi-Modal AI Analysis:** Uses Gemini 2.5 Flash to process both text and embedded images from medical documents (e.g., lab results, discharge summaries).
