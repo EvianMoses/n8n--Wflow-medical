@@ -7,6 +7,7 @@ The system automatically extracts entities, determines document sensitivity, log
 <img width="1334" height="477" alt="Screenshot 2026-06-27 021453" src="https://github.com/user-attachments/assets/bfe5b31a-7dec-4760-ae62-81681142fbf7" />
 
 <img width="587" height="400" alt="live dshbord" src="https://github.com/user-attachments/assets/f6937d01-fd47-42a8-b00a-b7b078848244" />
+<img width="2242" height="1158" alt="Screenshot 2026-06-27 021832" src="https://github.com/user-attachments/assets/2afa72a7-fa94-46fb-9fba-f4b6efab4594" />
 
 <img width="1864" height="566" alt="Screenshot 2026-06-26 072726" src="https://github.com/user-attachments/assets/f4a52408-fa2f-43b5-8827-baf8889c6ca7" />
 
