@@ -33,10 +33,17 @@ Crucially, MedAI is more than a parser: every processed document is embedded and
 
 **Live Dashboard:**
 <img width="1362" height="879" alt="Screenshot 2026-06-27 140613" src="https://github.com/user-attachments/assets/ca918ce7-6cfc-4876-8ded-4dd713a9fb7d" />
+
+**Semantic Search from the Live Dashboard:**
 <img width="1243" height="563" alt="Screenshot 2026-06-27 140157" src="https://github.com/user-attachments/assets/22e142c4-db76-4ecf-8b4e-65ae2a62900d" />
 
+**Daily Email Digest:**
 <img width="2242" height="1158" alt="Pipeline detail" src="https://github.com/user-attachments/assets/2afa72a7-fa94-46fb-9fba-f4b6efab4594" />
 
+**Email Alert** 
+
+
+**Csv tracking:**
 <img width="1864" height="566" alt="Email digest" src="https://github.com/user-attachments/assets/f4a52408-fa2f-43b5-8827-baf8889c6ca7" />
 
 </details>
