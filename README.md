@@ -22,13 +22,13 @@ Crucially, MedAI is more than a parser: every processed document is embedded and
 
 ---
 
-## 🖼️ System Gallery
+## n8n Workflow 
 
 <img width="1297" height="449" alt="Screenshot 2026-06-27 142241" src="https://github.com/user-attachments/assets/20898e56-e9b5-41d8-8253-9637754dbf2a" />
 
 
 <details>
-<summary><b>📸 Click here to view system images (Screenshots)</b></summary>
+<summary><b>📸 System Gallery - Click here to view system images (Screenshots)</b></summary>
 
 
 **Live Dashboard:**
