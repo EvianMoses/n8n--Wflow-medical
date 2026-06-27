@@ -611,6 +611,24 @@
       ],
       "id": "a23002f6-8d66-4b26-9c84-d31cda272f09",
       "name": "Code in JavaScript3"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:8000/vectorize",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"document_id\": \"{{ $json.document_id }}\",\n  \"text\": \"{{ JSON.parse($('HTTP Request (gemini)').item.json.candidates[0].content.parts[0].text).summary }}\",\n  \"metadata\": {\n    \"department\": \"{{ $json.department }}\",\n    \"sensitivity\": \"{{ $json.sensitivity }}\",\n    \"routing_tag\": \"{{ $json.routing_tag }}\"\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        160,
+        -112
+      ],
+      "id": "2b582055-3558-4462-8235-9f4c455de43d",
+      "name": "Vectorize to Pinecone"
     }
   ],
   "pinData": {},
@@ -653,6 +671,11 @@
         [
           {
             "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Vectorize to Pinecone",
             "type": "main",
             "index": 0
           }
@@ -889,7 +912,7 @@
     "binaryMode": "separate",
     "availableInMCP": false
   },
-  "versionId": "a0932372-dc5c-4dfb-b3f6-4ca34fc816c0",
+  "versionId": "27a88649-fa6d-4278-993b-ad2c2ea4a500",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "05c874cda292cd9d5ad6ea464ca6f37952193996de749ce297563da47e9b5626"
