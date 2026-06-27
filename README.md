@@ -41,12 +41,14 @@ Crucially, MedAI is more than a parser: every processed document is embedded and
 <img width="2242" height="1158" alt="Pipeline detail" src="https://github.com/user-attachments/assets/2afa72a7-fa94-46fb-9fba-f4b6efab4594" />
 
 **Email Alert** 
-
+<img width="930" height="656" alt="Screenshot 2026-06-27 144117" src="https://github.com/user-attachments/assets/06b10297-fdee-4464-bac3-bc4136025916" />
 
 **Csv tracking:**
 <img width="1864" height="566" alt="Email digest" src="https://github.com/user-attachments/assets/f4a52408-fa2f-43b5-8827-baf8889c6ca7" />
 
 </details>
+
+
 ---
 
 ## 🏗️ Architecture
