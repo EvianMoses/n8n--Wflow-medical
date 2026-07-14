@@ -22,15 +22,32 @@ Crucially, MedAI is more than a parser: every processed document is embedded and
 
 ---
 
-## 🖼️ System Gallery
+## n8n Workflow 
 
-<img width="1334" height="477" alt="Dashboard overview" src="https://github.com/user-attachments/assets/bfe5b31a-7dec-4760-ae62-81681142fbf7" />
+<img width="1297" height="449" alt="Screenshot 2026-06-27 142241" src="https://github.com/user-attachments/assets/20898e56-e9b5-41d8-8253-9637754dbf2a" />
 
-<img width="1152" height="940" alt="n8n workflow" src="https://github.com/user-attachments/assets/ae074e71-146a-4df7-887d-edab5903a68c" />
 
+<details>
+<summary><b>📸 System Gallery - Click here to view system images (Screenshots)</b></summary>
+
+
+**Live Dashboard:**
+<img width="1362" height="879" alt="Screenshot 2026-06-27 140613" src="https://github.com/user-attachments/assets/ca918ce7-6cfc-4876-8ded-4dd713a9fb7d" />
+
+**Semantic Search from the Live Dashboard:**
+<img width="1243" height="563" alt="Screenshot 2026-06-27 140157" src="https://github.com/user-attachments/assets/22e142c4-db76-4ecf-8b4e-65ae2a62900d" />
+
+**Daily Email Digest:**
 <img width="2242" height="1158" alt="Pipeline detail" src="https://github.com/user-attachments/assets/2afa72a7-fa94-46fb-9fba-f4b6efab4594" />
 
+**Email Alert** 
+<img width="930" height="656" alt="Screenshot 2026-06-27 144117" src="https://github.com/user-attachments/assets/06b10297-fdee-4464-bac3-bc4136025916" />
+
+**Csv tracking:**
 <img width="1864" height="566" alt="Email digest" src="https://github.com/user-attachments/assets/f4a52408-fa2f-43b5-8827-baf8889c6ca7" />
+
+</details>
+
 
 ---
 
